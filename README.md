@@ -17,6 +17,7 @@ API USAGE
 
 # ...
 /join_party tem 3 possiveis outputs
+
 'success'
 
 'pt full'
