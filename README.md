@@ -16,7 +16,7 @@
 /get_parties
 
 ### ...
-/join_party tem 3 possiveis outputs
+#### /join_party tem 3 possiveis outputs
 
 'success'
 
