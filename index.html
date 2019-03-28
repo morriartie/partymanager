@@ -1,0 +1,57 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Ragm</title>
+    <link href="styles.css" rel="stylesheet"/>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<body>
+
+
+    <!-- item template -->
+    <script type="text/x-template" id="item-template">
+      <li>
+        
+        <div
+            :class="{bold: isFolder}"
+            @click="toggle">
+            {{ item.name }}
+            <span v-if="isFolder">[{{ isOpen ? '-' : '+' }}]</span>
+        </div>
+        
+        <ul v-show="isOpen" v-if="isFolder">
+            <tree-item
+            class="item"
+            v-for="(child, index) in item.children"
+            :key="index"
+            :item="child"
+            @add-party="$emit('add-party', $event)" @add-member="$emit('add-member', $event)"
+            ></tree-item>
+            <span v-if="item.party">
+              <li class="add" @click="$emit('add-member', item)">+entrar+</li>
+            </span><span v-else>
+              <li class="add" @click="$emit('add-party', item)">+criar nova+</li>
+            </span>
+        </ul>
+      </li>
+</script>
+
+<p>Lista do Dia</p>
+
+<!-- the demo root element -->
+
+<ul id="demo">
+  <tree-item
+  class="item"
+  :item="torreData"
+  @make-folder="makeFolder"
+  @add-member="addMember"
+  @add-party="addParty"
+  ></tree-item>
+</ul>
+
+<script src="app.js"></script>
+</body>
+</html>

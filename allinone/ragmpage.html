@@ -1,0 +1,143 @@
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>vueJS tutorial</title>
+    <script src="https://unpkg.com/vue"></script>
+</head>
+<style>
+body {
+  font-family: Menlo, Consolas, monospace;
+  color: #444;
+}
+.item {
+  cursor: pointer;
+}
+.bold {
+  font-weight: bold;
+}
+ul {
+  padding-left: 1em;
+  line-height: 1.5em;
+  list-style-type: dot;
+}
+</style>
+<body>
+
+
+
+    <!-- item template -->
+    <script type="text/x-template" id="item-template">
+      <li>
+        
+        <div
+            :class="{bold: isFolder}"
+            @click="toggle">
+            {{ item.name }}
+            <span v-if="isFolder">[{{ isOpen ? '-' : '+' }}]</span>
+        </div>
+        
+        <ul v-show="isOpen" v-if="isFolder">
+            <tree-item
+            class="item"
+            v-for="(child, index) in item.children"
+            :key="index"
+            :item="child"
+            @add-party="$emit('add-party', $event)" @add-member="$emit('add-member', $event)"
+            ></tree-item>
+            <span v-if="item.party">
+              <li class="add" @click="$emit('add-member', item)">+entrar+</li>
+            </span><span v-else>
+              <li class="add" @click="$emit('add-party', item)">+criar nova+</li>
+            </span>
+        </ul>
+      </li>
+</script>
+
+<p>Lista do Dia</p>
+
+<!-- the demo root element -->
+
+<ul id="demo">
+  <tree-item
+  class="item"
+  :item="torreData"
+  @make-folder="makeFolder"
+  @add-member="addMember"
+  @add-party="addParty"
+  ></tree-item>
+</ul>
+
+
+<script>
+// demo data
+var documentsData = {}
+var torreData = {name:'grupos',
+                children:[{name:'torre 0F (9h)',party:true,pid:'9d561f50-6bde-44e9-8827-4b77b4dec2bb',children:[{name:'moriartie',party:false},{name:'linnoro',party:false}]},]
+}
+
+// define the tree-item component
+Vue.component('tree-item', {
+  template: '#item-template',
+  props: {
+    item: Object
+  },
+  data: function () {
+    return {
+      isOpen: false
+    }
+  },
+  computed: {
+    isFolder: function () {
+      return this.item.children &&
+        this.item.children.length
+    }
+  },
+  methods: {
+    toggle: function () {
+      if (this.isFolder) {
+        this.isOpen = !this.isOpen
+      }
+    },
+    makeFolder: function () {
+      if (!this.isFolder) {
+        this.$emit('make-folder', this.item)
+        this.isOpen = true
+      }
+    }
+  }
+})
+
+// boot up the demo
+var demo = new Vue({
+  el: '#demo',
+  data: {
+    torreData: torreData
+  },
+  methods: {
+    addParty: function (item) {
+      item.children.push({
+        name: 'Torre XF 12:00',party:true,pid:'aaaaushesuehsu22211',children:[{name:'moriartie',party:false}]
+      })
+    },
+    addMember: function (item) {
+      // em vez de adicionar diretamente um filho
+      // verificar se esse "+" esta no nivel 1 ou 2
+      //
+      // se estiver no nivel 2, pedir ao usuario nome do char e classe
+      // e enviar uma request pedindo a tree atualizada
+      //
+      // se estiver no nivel 2, pedir ao usuario nome da pt e hora
+      // e enviar uma request pedindo a tree atualizada
+      //
+      // remover isso 
+      item.children.push({name: 'inserido em: '+item.pid,party:false})
+      
+      // ate aqui
+    }
+  }
+})
+</script>
+</body>
+</html>
