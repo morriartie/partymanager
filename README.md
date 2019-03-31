@@ -15,6 +15,10 @@
 ### verificando que linnoro entrou na pt
 /get_parties
 
+### remove o char 'linnoro' da pt de codigo __
+/leave_party/linnoro/f9d83ca4-5342-41ae-8e19-caa6ff4379c7
+##### se este for o último membro, a party é deletada
+
 ### ...
 #### /join_party tem 3 possiveis outputs
 
@@ -23,3 +27,28 @@
 'pt full'
 
 'no pt found'
+
+# Estrutura dos dados
+geral: 
+```python
+{'name':'grupos','children':[]}
+```
+party:
+```python
+{'name':partyname, 'pt_time':partytime, 'party':True, 'pid':str(uid()), 'children':[]}
+```
+user:
+```python
+{'name':charname, 'class':charclass, 'party':False}
+```
+
+--------------
+```
++--geral [name]
+   +--party1 [name, pt_time, pid]
+   |  +--member1 [name, class]
+   |  +--member2 [name, class]
+   |
+   +--party2 [name, pt_time, pid]
+      +--member3 [name, class]
+```
