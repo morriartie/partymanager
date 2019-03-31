@@ -46,9 +46,9 @@ user:
 ```
 +--geral [name]
    +--party1 [name, pt_time, pid]
-   |  +--member1 [name, class]
-   |  +--member2 [name, class]
+   |  +--user1 [name, class]
+   |  +--user2 [name, class]
    |
    +--party2 [name, pt_time, pid]
-      +--member3 [name, class]
+      +--user3 [name, class]
 ```
