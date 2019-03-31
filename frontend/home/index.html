@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+    <title>Furries | Ragnarok M </title>
+    <link rel="shortcut icon" type="image/x-icon" href="images/moonlight.ico" />
+
+  <!-- Custom fonts for this template-->
+  <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+
+  <!-- Custom styles for this template-->
+  <link href="css/sb-admin-2.css" rel="stylesheet">
+
+  <style type="text/css">
+    .modal-content{
+      padding: 20px;
+    }
+    #joinGroupName{
+      margin-left: 20px;
+    }
+    #joinGroupTime{
+      margin-left: 5px;
+    }
+  </style>
+
+</head>
+
+<body id="page-top">
+
+  <!-- Page Wrapper -->
+  <div id="wrapper">
+
+    <!-- Sidebar -->
+    <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+    </ul>
+    <!-- End of Sidebar -->
+
+    <!-- Content Wrapper -->
+    <div id="content-wrapper" class="d-flex flex-column">
+
+      <!-- Main Content -->
+      <div id="content">
+
+        <!-- Topbar -->
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+
+          <!-- Sidebar Toggle (Topbar) -->
+          <!-- /top tiles -->
+          <div class="row ">
+                <h1>Grupos do dia: <a id="crrDate"></a></h1>
+          </div>
+
+        </nav>
+        <!-- End of Topbar -->
+
+        <!-- Begin Page Content -->
+        <div class="container-fluid">
+
+          <!-- /top tiles -->
+          <div class="row">
+            <div class="col-md-2">
+              <button class="btn btn-primary" id="createParty">Criar Grupo</button>
+            </div>
+            <div class="col-md-1">
+              <button class="btn btn-danger" id="reset">reset</button>
+            </div>
+          </div>
+
+          <hr>
+
+          <div id="partiesList">
+            
+
+          </div>
+
+        </div>
+        <!-- /.container-fluid -->
+
+      </div>
+      <!-- End of Main Content -->
+
+      <!-- Footer -->
+      <footer class="sticky-footer bg-white">
+        <div class="container my-auto">
+          <div class="copyright text-center my-auto">
+            <span>Furries &copy; 2019</span>
+          </div>
+        </div>
+      </footer>
+      <!-- End of Footer -->
+
+    </div>
+    <!-- End of Content Wrapper -->
+
+  </div>
+  <!-- End of Page Wrapper -->
+
+  <!-- Scroll to Top Button-->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <!-- Bootstrap core JavaScript-->
+  <script src="vendor/jquery/jquery.min.js"></script>
+  <script src="vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+  <!-- Core plugin JavaScript-->
+  <script src="vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@8"></script>
+
+  <!-- Custom scripts for all pages-->
+  <script src="js/sb-admin-2.min.js"></script>
+
+</body>
+
+  <!-- Modal -->
+  <div class="modal fade" id="groupModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Novo Grupo</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="row">
+             <div class="form-group">
+               <label for="groupname">Nome do Grupo</label>
+               <input type="text" class="form-control" id="groupName" aria-describedby="groupHelp" placeholder="Grupo">
+               <small id="groupHelp" class="form-text text-muted">Ex: (Torre 0F, Torre 50F+, Valhala 40, Rift, Evento, PVP, etc)</small>
+             </div>
+             <div>
+              <div class="form-group">
+               <label for="groupTime">Horário</label>
+               <input type="text" class="form-control" id="groupTime" aria-describedby="groupTimeHelp" placeholder="Horário">
+               <small id="groupTimeHelp" class="form-text text-muted">Horário de realização da missão.</small>
+             </div>               
+             </div>
+             <div class="row">
+               <div class="col-md-6">
+                  <div class="form-group">
+                   <label for="groupLeader">Seu Nick</label>
+                   <input type="text" class="form-control" id="groupLeader" aria-describedby="groupLeaderHelp" placeholder="Nick">
+                 </div>                
+               </div>
+               <div class="col-md-6">
+                 <div class="form-group">
+                   <label for="groupname">Sua Classe</label>
+                   <input type="text" class="form-control" id="playerClass" aria-describedby="playerClassHelp" placeholder="Classe">
+                   <small id="playerClassHelp" class="form-text text-muted">Ex: (Sinx, Sniper, Paladin, etc.)</small>
+                 </div>                   
+               </div>
+             </div>                
+          </div>
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" id="openParty" class="btn btn-success">Criar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Modal Join -->
+  <div class="modal fade" id="joinGroupModal" tabindex="-1" role="dialog" aria-labelledby="joinGroupModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Entrar em Grupo</h5> <a id="joinGroupName"></a> <a id="joinGroupTime"></a>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+             <div class="row">
+               <div class="col-md-6">
+                  <div class="form-group">
+                   <label for="groupLeader">Seu Nick</label>
+                   <input type="text" class="form-control" id="playerName" aria-describedby="playerNameHelp" placeholder="Nick">
+                 </div>                
+               </div>
+               <div class="col-md-6">
+                 <div class="form-group">
+                   <label for="groupname">Sua Classe</label>
+                   <input type="text" class="form-control" id="playerJoinClass" aria-describedby="playerClassHelp" placeholder="Classe">
+                   <small id="playerClassHelp" class="form-text text-muted">Ex: (Sinx, Sniper, Paladin, etc.)</small>
+                 </div>                   
+               </div>
+             </div>                
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-success joinParty">Entrar</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script type="text/javascript">
+   $( document ).ready(function() {
+
+      $("#crrDate").html(dataAtualFormatoBR());
+
+      $("x_panel").on("click", function(e){
+              var $_target =  $(e.currentTarget);
+              var $_panelBody = $_target.find(".collapse-link");
+              if($_panelBody){
+                $_panelBody.collapse('toggle')
+              }
+        })
+
+        getAllParties();
+
+        function dataAtualFormatoBR(){
+          var d = new Date().getDate();
+          var m = new Date().getMonth();
+          m = m + 1;
+          var y = new Date().getFullYear();
+          return d+"/"+m+"/"+y;
+        }
+
+        function getAllParties(){
+
+          $("#partiesList").html('');
+
+          $.get( "http://3.95.232.56/get_parties", function( data ) {
+            var list = JSON.parse( data );
+
+              var partyList = [];
+
+              $.each(list, function(index, parties) {
+                 partyList = parties;            
+              });
+
+              var i;
+              var j;
+              for (i = 0; i < partyList.length; i++) { 
+
+                $("#partiesList").append('<div class="row"><div class="col-md-4 col-sm-4 col-xs-12"><div class="x_panel"><div class="x_title"><h2><a class="partyName'+i+' "></a><small class="party'+i+'Time"></small></h2><div class="clearfix"></div></div><div class="x_content"><div class="dashboard-widget-content"><ul class=" party'+i+'MemberList list-unstyled timeline widget"></ul><button data-pid='+partyList[i].pid+' class="btn btn-success btnOpenJoin">Entrar no grupo</button></div></div></div></div>');
+                 
+                 $(" .partyName"+i+" ").html(partyList[i].name);
+
+                 $(" .party"+i+"Time ").html(partyList[i].pt_time);
+
+                 for (j = 0; j < partyList[i].children.length; j++){
+                    $(".party"+i+"MemberList").append(' <li class="partyMember"><div class="block"><div class="block_content"><h2 class="title"><a class="party'+i+'MemberName'+j+'">'+partyList[i].children[j].name+'</a></h2><div class="byline"><span class="party'+i+'Member'+j+'Class">'+partyList[i].children[j].class+'</span></div></div></div></li> ');
+                 }
+
+              }
+
+          });
+        }
+
+        function joinParty(){
+
+          $("#partiesList").html("");
+          getAllParties();
+
+        }
+        
+        $( "#reset" ).click(function() {
+            $.get( "http://3.95.232.56/reset_parties");
+            $("#partiesList").html("");
+            getAllParties();
+        });
+
+        $( "#createParty" ).click(function() {
+            $("#groupModal").modal("show");
+        }); 
+
+        var pid;
+
+        $('body').on('click', '.btnOpenJoin', function(e) {
+            pid = "";
+            $("#joinGroupModal").modal("show"); 
+            pid = $(this).data("pid");       
+        });
+
+        $('body').on('click', '.joinParty', function(e) {
+
+            var playerName = $("#playerName").val();
+            var playerClass = $("#playerJoinClass").val();
+
+            console.log(pid);
+            console.log(playerName);
+            console.log(playerClass);  
+
+            $.get( "http://3.95.232.56/join_party/"+playerName+"/"+playerClass+"/"+pid+" ", function( data ) {
+
+              console.log(data);
+
+              if(data == "pt full"){
+                $("#joinGroupModal").modal("hide");
+                Swal.fire("Ops!", "Este grupo já está cheio! (Limite: 5 Membros)", "error");
+              }
+
+              if(data != "no pt found" && data != "pt full"){
+                $("#joinGroupModal").modal("hide");
+                Swal.fire("Boa aventura!", "Divirta-se", "success");
+                getAllParties();
+              }
+
+           });
+
+        });
+
+        $( "#openParty" ).click(function() {
+           var groupName = $("#groupName").val();
+           var groupTime = $("#groupTime").val();
+           var groupLeader = $("#groupLeader").val();
+           var playerClass = $("#playerClass").val();
+
+           $.get( "http://3.95.232.56/create_party/"+groupName+"/"+groupTime+"/"+groupLeader+"/"+playerClass+" ", function( data ) {
+
+              if(data == 0){
+                $("#groupModal").modal("hide");
+                getAllParties();
+              }
+
+           });
+
+        });        
+
+    });   
+  </script>
+
+</html>
