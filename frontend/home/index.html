@@ -15,6 +15,8 @@
   <!-- Custom fonts for this template-->
   <link href="vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.css" rel="stylesheet">
@@ -29,6 +31,11 @@
     #joinGroupTime{
       margin-left: 5px;
     }
+/*    .container-fluid{
+      background: url('images/romlogo.png');
+      background-repeat: no-repeat;
+      background-position: center;
+    }*/
   </style>
 
 </head>
@@ -77,8 +84,7 @@
 
           <hr>
 
-          <div id="partiesList">
-            
+          <div id="partiesList">         
 
           </div>
 
@@ -210,6 +216,36 @@
     </div>
   </div>
 
+  <!-- Modal Leave -->
+  <div class="modal fade" id="leaveGroupModal" tabindex="-1" role="dialog" aria-labelledby="leaveGroupModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Remover Membro do Grupo</h5> <a id="joinGroupName"></a> <a id="joinGroupTime"></a>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+             <small>Deseja remover o membro do Grupo?</small>
+             <div class="row">
+               <div class="col-md-12">
+                  <div class="form-group">
+                   <label for="groupLeader"> Confirme o Nick do Jogador a ser removido.</label>
+                   <input type="text" class="form-control" id="rmPlayerName" aria-describedby="playerNameHelp" placeholder="Nick">
+                 </div>                
+               </div>
+             </div>                
+
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-danger removeFromParty">Remover</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script type="text/javascript">
    $( document ).ready(function() {
 
@@ -235,19 +271,25 @@
 
         function getAllParties(){
 
-          $("#partiesList").html('');
+          $("#partiesList").html("");
 
           $.get( "http://3.95.232.56/get_parties", function( data ) {
-            var list = JSON.parse( data );
+              var list = JSON.parse( data );
 
               var partyList = [];
+              var i;
+              var j;
+
+              if(list.children.length == 0){
+                $("#partiesList").html("");
+                $("#partiesList").append("Nenhum grupo criado hoje!");
+              }
 
               $.each(list, function(index, parties) {
                  partyList = parties;            
               });
 
-              var i;
-              var j;
+
               for (i = 0; i < partyList.length; i++) { 
 
                 $("#partiesList").append('<div class="row"><div class="col-md-4 col-sm-4 col-xs-12"><div class="x_panel"><div class="x_title"><h2><a class="partyName'+i+' "></a><small class="party'+i+'Time"></small></h2><div class="clearfix"></div></div><div class="x_content"><div class="dashboard-widget-content"><ul class=" party'+i+'MemberList list-unstyled timeline widget"></ul><button data-pid='+partyList[i].pid+' class="btn btn-success btnOpenJoin">Entrar no grupo</button></div></div></div></div>');
@@ -257,7 +299,7 @@
                  $(" .party"+i+"Time ").html(partyList[i].pt_time);
 
                  for (j = 0; j < partyList[i].children.length; j++){
-                    $(".party"+i+"MemberList").append(' <li class="partyMember"><div class="block"><div class="block_content"><h2 class="title"><a class="party'+i+'MemberName'+j+'">'+partyList[i].children[j].name+'</a></h2><div class="byline"><span class="party'+i+'Member'+j+'Class">'+partyList[i].children[j].class+'</span></div></div></div></li> ');
+                    $(".party"+i+"MemberList").append(' <li class="partyMember"><div class="block"><div class="block_content"><div class="row"><div class="col-md-10"><h2 class="title"><a class="party'+i+'MemberName'+j+'">'+partyList[i].children[j].name+'</a></h2><div class="byline"><span class="party'+i+'Member'+j+'Class">'+partyList[i].children[j].class+'</span></div></div><div class="col-md-2"><button data-rmnick='+partyList[i].children[j].name+' data-pidleave='+partyList[i].pid+' title="Remover Membro" class="btn btn-danger btnLeavePt"><i class="fas fa-times"></i></button></div></div></div></div></li> ');
                  }
 
               }
@@ -265,12 +307,6 @@
           });
         }
 
-        function joinParty(){
-
-          $("#partiesList").html("");
-          getAllParties();
-
-        }
         
         $( "#reset" ).click(function() {
             $.get( "http://3.95.232.56/reset_parties");
@@ -280,11 +316,19 @@
 
         $( "#createParty" ).click(function() {
             $("#groupModal").modal("show");
+            var groupName = $("#groupName").val("");
+            var groupTime = $("#groupTime").val("");
+            var groupLeader = $("#groupLeader").val("");
+            var playerClass = $("#playerClass").val("");
         }); 
 
         var pid;
+        var pidLeave;
+        var playerToRemove;
 
         $('body').on('click', '.btnOpenJoin', function(e) {
+            var playerName = $("#playerName").val("");
+            var playerClass = $("#playerJoinClass").val("");  
             pid = "";
             $("#joinGroupModal").modal("show"); 
             pid = $(this).data("pid");       
@@ -293,24 +337,21 @@
         $('body').on('click', '.joinParty', function(e) {
 
             var playerName = $("#playerName").val();
-            var playerClass = $("#playerJoinClass").val();
-
-            console.log(pid);
-            console.log(playerName);
-            console.log(playerClass);  
+            var playerClass = $("#playerJoinClass").val();  
 
             $.get( "http://3.95.232.56/join_party/"+playerName+"/"+playerClass+"/"+pid+" ", function( data ) {
 
-              console.log(data);
 
               if(data == "pt full"){
                 $("#joinGroupModal").modal("hide");
                 Swal.fire("Ops!", "Este grupo já está cheio! (Limite: 5 Membros)", "error");
+                return;
               }
 
               if(data != "no pt found" && data != "pt full"){
                 $("#joinGroupModal").modal("hide");
                 Swal.fire("Boa aventura!", "Divirta-se", "success");
+                pid = "";
                 getAllParties();
               }
 
@@ -334,6 +375,38 @@
            });
 
         });        
+
+       $('body').on('click', '.btnLeavePt', function(e) {
+            $("#leaveGroupModal").modal("show");
+             pidLeave = $(this).data("pidleave");  
+             playerToRemove = $(this).data("rmnick");
+        }); 
+
+       $('body').on('click', '.removeFromParty', function(e) {
+            var playerName = $("#rmPlayerName").val();
+
+            if(playerName != playerToRemove){
+               Swal.fire("Ops!", "Nick não corresponde ao membro selecionado para remoção", "error");
+              return;
+            }  
+
+            $.get( "http://3.95.232.56/leave_party/"+playerName+"/"+pidLeave+" ", function( data ) {
+
+              if(data == "player not found"){
+                $("#leaveGroupModal").modal("hide");
+                Swal.fire("Ops!", "Este grupo não possui nenhum jogador com este nick", "error");
+                return;
+              }
+
+              if(data == 0){
+                pidLeave = "";
+                $("#leaveGroupModal").modal("hide");
+                getAllParties();
+              }
+
+           });
+
+        }); 
 
     });   
   </script>
