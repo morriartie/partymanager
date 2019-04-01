@@ -52,3 +52,20 @@ user:
    +--party2 [name, pt_time, pid]
       +--user3 [name, class]
 ```
+
+####Implemetações Futuras:
+###Servidor:
+Aceitar querystring
+Aceitar classes como lista
+Aceitar classes como ID, e nao string
+Opção de deletar party
+Tempo em datetime
+Deletar party após 1h passada o horario objetivo
+Anunciar proximidade da hora utilizando o bot do discord
+
+
+###Interface:
+Mostrar cards em grade
+Enviar texto em querystring (esperar backend)
+Enviar classes como lista (esperar backend)
+Enviar classes como id (esperar backend)
