@@ -10,7 +10,6 @@
 #crrDate{
   font-style: italic;
   margin-left: 10px;
-  color: red;
 }
 .titlePt{
   margin-left: 5px;
@@ -23,6 +22,9 @@
 }
 #reset{
   display: none;
+}
+.partyTime {
+  margin-left: 5px;
 }
 /*    .container-fluid{
   background: url('images/romlogo.png');
