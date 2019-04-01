@@ -25,6 +25,10 @@
 }
 .partyTime {
   margin-left: 5px;
+  color: red;
+}
+.clock{
+  font-size: 1.2rem !important; 
 }
 /*    .container-fluid{
   background: url('images/romlogo.png');
