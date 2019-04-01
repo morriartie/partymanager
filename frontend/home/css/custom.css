@@ -1,0 +1,30 @@
+.modal-content{
+  padding: 20px;
+}
+#joinGroupName{
+  margin-left: 20px;
+}
+#joinGroupTime{
+  margin-left: 5px;
+}
+#crrDate{
+  font-style: italic;
+  margin-left: 10px;
+}
+.titlePt{
+  margin-left: 5px;
+}
+.createArea{
+  margin-top: 15px;
+}
+.romLogo{
+  width: 10%;
+}
+#reset{
+  display: none;
+}
+/*    .container-fluid{
+  background: url('images/romlogo.png');
+  background-repeat: no-repeat;
+  background-position: center;
+}*/

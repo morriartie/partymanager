@@ -20,23 +20,7 @@
 
   <!-- Custom styles for this template-->
   <link href="css/sb-admin-2.css" rel="stylesheet">
-
-  <style type="text/css">
-    .modal-content{
-      padding: 20px;
-    }
-    #joinGroupName{
-      margin-left: 20px;
-    }
-    #joinGroupTime{
-      margin-left: 5px;
-    }
-/*    .container-fluid{
-      background: url('images/romlogo.png');
-      background-repeat: no-repeat;
-      background-position: center;
-    }*/
-  </style>
+  <link href="css/custom.css" rel="stylesheet">
 
 </head>
 
@@ -58,19 +42,34 @@
       <div id="content">
 
         <!-- Topbar -->
-        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-4 static-top shadow">
+        <nav class="navbar navbar-expand navbar-light bg-white topbar mb-6 static-top shadow">
 
           <!-- Sidebar Toggle (Topbar) -->
           <!-- /top tiles -->
-          <div class="row ">
-                <h1>Grupos do dia: <a id="crrDate"></a></h1>
+          <div class="row">
+               <h5 class="titlePt">Grupos do dia: </h5><a id="crrDate"></a>
           </div>
+
+
+          <ul class="navbar-nav ml-auto">
+
+            <div class="topbar-divider d-none d-sm-block"></div>
+
+            <!-- Nav Item - User Information -->
+            <li class="nav-item dropdown no-arrow">
+              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <span class="mr-2 d-none d-lg-inline text-gray-600 small"><b>Furries</b></span>
+                <img class="img-profile rounded-circle romlogo" src="images/moonlight.ico">
+              </a>
+            </li>
+
+          </ul>          
 
         </nav>
         <!-- End of Topbar -->
 
         <!-- Begin Page Content -->
-        <div class="container-fluid">
+        <div class="container-fluid createArea">
 
           <!-- /top tiles -->
           <div class="row">
@@ -266,7 +265,7 @@
           var m = new Date().getMonth();
           m = m + 1;
           var y = new Date().getFullYear();
-          return d+"/"+m+"/"+y;
+          return " "+d+"/"+m+"/"+y;
         }
 
         function getAllParties(){
