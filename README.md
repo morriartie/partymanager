@@ -53,9 +53,9 @@ user:
       +--user3 [name, class]
 ```
 
-#### Implemetações Futuras:
+## Implemetações Futuras:
 
-### Servidor:
+#### Servidor:
 * Opção de deletar party
 * Aceitar querystring
 * Aceitar classes como lista
@@ -65,7 +65,7 @@ user:
 * Anunciar proximidade da hora utilizando o bot do discord
 
 
-### Interface:
+#### Interface:
 * Mostrar cards em grade
 * Inserir opção de deletar party(esperar backend)
 * Enviar texto em querystring (esperar backend)
