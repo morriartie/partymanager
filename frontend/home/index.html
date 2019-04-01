@@ -248,31 +248,70 @@
   <script type="text/javascript">
    $( document ).ready(function() {
 
-      $("#crrDate").html(dataAtualFormatoBR());
+        // PartyComponent
+        var partyComponentOuter = '<div class="row"><div class="col-md-4 col-sm-4 col-xs-12">';
+        var partyComponentBox = '<div class="x_panel"><div class="x_title">';
+        var partyTitle = '<h2><a class="partyName';
+        var partyTime = ' "></a><small class="party';
+        var partyTime2 = 'Time"></small>';
+        var partyComponentBoxInner = '</h2><div class="clearfix"></div></div><div class="x_content"><div class="dashboard-widget-content">'; 
+        var partyComponentMemberArea = '<ul class=" party';
+        var partyComponentMemberArea2 = 'MemberList list-unstyled timeline widget"></ul><button data-pid=';
+        var partyComponenetJoinButtonAndClosing = ' class="btn btn-success btnOpenJoin">Entrar no grupo</button></div></div></div></div>';
 
-      $("x_panel").on("click", function(e){
-              var $_target =  $(e.currentTarget);
-              var $_panelBody = $_target.find(".collapse-link");
-              if($_panelBody){
-                $_panelBody.collapse('toggle')
-              }
-        })
+        var memberAreaOuter = ' <li class="partyMember"><div class="block"><div class="block_content"><div class="row"><div class="col-md-10"><h2 class="title">';
+        var memberAreaIdentificator = '<a class="party';
+        var memberAreaIdentificator2 = 'MemberName';
+        var memberAreaIdentificator3 = '">';
+        var memberClassOuter = '</a></h2><div class="byline"><span class="party';
+        var memberClassName = 'Member';
+        var memberClassName2 = 'Class">';
+        var closing = '</span></div></div><div class="col-md-2">';
+        var buttonLeave1 = '<button data-rmnick=';
+        var buttonDataPid = ' data-pidleave=';
+        var buttonLeave2Closing = ' title="Remover Membro" class="btn btn-danger btnLeavePt"><i class="fas fa-times"></i></button></div></div></div></div></li> ';
+
+       // PartyComponent End
+
+       // Global Variables
+        var pid;
+        var pidLeave;
+        var playerToRemove;
+        var apiPath = 'http://3.95.232.56';
+
+       // Model Triggers
+
+       $( "#createParty" ).click(function() {
+            $("#groupModal").modal("show");
+            var groupName = $("#groupName").val("");
+            var groupTime = $("#groupTime").val("");
+            var groupLeader = $("#groupLeader").val("");
+            var playerClass = $("#playerClass").val("");
+        }); 
+
+        $('body').on('click', '.btnOpenJoin', function(e) {
+            var playerName = $("#playerName").val("");
+            var playerClass = $("#playerJoinClass").val("");  
+            pid = "";
+            $("#joinGroupModal").modal("show"); 
+            pid = $(this).data("pid");       
+        });
+
+        $('body').on('click', '.btnLeavePt', function(e) {
+            $("#leaveGroupModal").modal("show");
+             pidLeave = $(this).data("pidleave");  
+             playerToRemove = $(this).data("rmnick");
+        }); 
+
+        $("#crrDate").html(dataAtualFormatoBR());
 
         getAllParties();
-
-        function dataAtualFormatoBR(){
-          var d = new Date().getDate();
-          var m = new Date().getMonth();
-          m = m + 1;
-          var y = new Date().getFullYear();
-          return " "+d+"/"+m+"/"+y;
-        }
 
         function getAllParties(){
 
           $("#partiesList").html("");
 
-          $.get( "http://3.95.232.56/get_parties", function( data ) {
+          $.get( apiPath+"/get_parties", function( data ) {
               var list = JSON.parse( data );
 
               var partyList = [];
@@ -291,54 +330,39 @@
 
               for (i = 0; i < partyList.length; i++) { 
 
-                $("#partiesList").append('<div class="row"><div class="col-md-4 col-sm-4 col-xs-12"><div class="x_panel"><div class="x_title"><h2><a class="partyName'+i+' "></a><small class="party'+i+'Time"></small></h2><div class="clearfix"></div></div><div class="x_content"><div class="dashboard-widget-content"><ul class=" party'+i+'MemberList list-unstyled timeline widget"></ul><button data-pid='+partyList[i].pid+' class="btn btn-success btnOpenJoin">Entrar no grupo</button></div></div></div></div>');
+                $("#partiesList").append(partyComponentOuter+partyComponentBox+
+                  partyTitle+i+partyTime+i+partyTime2+
+                  partyComponentBoxInner+
+                  partyComponentMemberArea+i+
+                  partyComponentMemberArea2+
+                  partyList[i].pid+partyComponenetJoinButtonAndClosing);
                  
                  $(" .partyName"+i+" ").html(partyList[i].name);
-
                  $(" .party"+i+"Time ").html(partyList[i].pt_time);
 
                  for (j = 0; j < partyList[i].children.length; j++){
-                    $(".party"+i+"MemberList").append(' <li class="partyMember"><div class="block"><div class="block_content"><div class="row"><div class="col-md-10"><h2 class="title"><a class="party'+i+'MemberName'+j+'">'+partyList[i].children[j].name+'</a></h2><div class="byline"><span class="party'+i+'Member'+j+'Class">'+partyList[i].children[j].class+'</span></div></div><div class="col-md-2"><button data-rmnick='+partyList[i].children[j].name+' data-pidleave='+partyList[i].pid+' title="Remover Membro" class="btn btn-danger btnLeavePt"><i class="fas fa-times"></i></button></div></div></div></div></li> ');
+                    $(".party"+i+"MemberList").append(memberAreaOuter+
+                      memberAreaIdentificator+i+memberAreaIdentificator2+j+memberAreaIdentificator3+partyList[i].children[j].name+
+                      memberClassOuter+i+memberClassName+j+memberClassName2+
+                      partyList[i].children[j].class+closing+
+                      buttonLeave1+partyList[i].children[j].name+
+                      buttonDataPid+partyList[i].pid+
+                      buttonLeave2Closing);
                  }
 
               }
 
           });
+
         }
 
-        
-        $( "#reset" ).click(function() {
-            $.get( "http://3.95.232.56/reset_parties");
-            $("#partiesList").html("");
-            getAllParties();
-        });
-
-        $( "#createParty" ).click(function() {
-            $("#groupModal").modal("show");
-            var groupName = $("#groupName").val("");
-            var groupTime = $("#groupTime").val("");
-            var groupLeader = $("#groupLeader").val("");
-            var playerClass = $("#playerClass").val("");
-        }); 
-
-        var pid;
-        var pidLeave;
-        var playerToRemove;
-
-        $('body').on('click', '.btnOpenJoin', function(e) {
-            var playerName = $("#playerName").val("");
-            var playerClass = $("#playerJoinClass").val("");  
-            pid = "";
-            $("#joinGroupModal").modal("show"); 
-            pid = $(this).data("pid");       
-        });
 
         $('body').on('click', '.joinParty', function(e) {
 
             var playerName = $("#playerName").val();
             var playerClass = $("#playerJoinClass").val();  
 
-            $.get( "http://3.95.232.56/join_party/"+playerName+"/"+playerClass+"/"+pid+" ", function( data ) {
+            $.get( apiPath+"/join_party/"+playerName+"/"+playerClass+"/"+pid+" ", function( data ) {
 
 
               if(data == "pt full"){
@@ -364,7 +388,7 @@
            var groupLeader = $("#groupLeader").val();
            var playerClass = $("#playerClass").val();
 
-           $.get( "http://3.95.232.56/create_party/"+groupName+"/"+groupTime+"/"+groupLeader+"/"+playerClass+" ", function( data ) {
+           $.get( apiPath+"/create_party/"+groupName+"/"+groupTime+"/"+groupLeader+"/"+playerClass+" ", function( data ) {
 
               if(data == 0){
                 $("#groupModal").modal("hide");
@@ -375,11 +399,6 @@
 
         });        
 
-       $('body').on('click', '.btnLeavePt', function(e) {
-            $("#leaveGroupModal").modal("show");
-             pidLeave = $(this).data("pidleave");  
-             playerToRemove = $(this).data("rmnick");
-        }); 
 
        $('body').on('click', '.removeFromParty', function(e) {
             var playerName = $("#rmPlayerName").val();
@@ -389,7 +408,7 @@
               return;
             }  
 
-            $.get( "http://3.95.232.56/leave_party/"+playerName+"/"+pidLeave+" ", function( data ) {
+            $.get( apiPath+"/leave_party/"+playerName+"/"+pidLeave+" ", function( data ) {
 
               if(data == "player not found"){
                 $("#leaveGroupModal").modal("hide");
@@ -406,6 +425,14 @@
            });
 
         }); 
+
+        function dataAtualFormatoBR(){
+          var d = new Date().getDate();
+          var m = new Date().getMonth();
+          m = m + 1;
+          var y = new Date().getFullYear();
+          return " "+d+"/"+m+"/"+y;
+        }
 
     });   
   </script>
