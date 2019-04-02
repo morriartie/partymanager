@@ -47,11 +47,16 @@
           <!-- Sidebar Toggle (Topbar) -->
           <!-- /top tiles -->
           <div class="row">
-               <h5 class="titlePt">Grupos do dia: </h5><a id="crrDate"></a>
+              <h5 class="titlePt">Grupos do dia: </h5><a id="crrDate"></a>
           </div>
 
-
           <ul class="navbar-nav ml-auto">
+
+            <li>
+                <button id="btnOpenInfo" href="#" class="btnInfo btn btn-info btn-circle">
+                  <i class="fas fa-info-circle"></i>
+                </button>
+            </li>
 
             <div class="topbar-divider d-none d-sm-block"></div>
 
@@ -245,6 +250,35 @@
     </div>
   </div>
 
+  <!-- Modal Info -->
+  <div class="modal fade" id="infoModal" tabindex="-1" role="dialog" aria-labelledby="infoModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Informações e Eventos</h5> 
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p id="informative"> 
+            <b>*RESUMÃO EVENTO 1º*</b><br>
+            Data: 01/04 a 08/04<br><br>
+            - Vá no centro de Prontera e receba a missão do NPC (Tolakai), ele vai te enviar para um npc em Geffen<br>
+            - Todo dia você vai poder concluir uma missão (total de 5)(sempre no NPC em Geffen)<br>
+            - As missões poderão ser aceitas até dia 08/04 (ANTES DAS 8H)<br>
+            - As missões poderão ser concluídas até 14/04 (ANTES DAS 8H) se não expirarão<br>
+            - Ao concluir as missões vcs receberão um tipo de moeda, Spring Symphony só clickar nela e abrir a lojinha pra ver o que pode comprar, assim como o evento da semana passada<br>
+            - Ao final da quinta missão receberá um blueprint exclusivo do evento<br><br>
+
+            <b>*IMPORTANTE*</b><br>
+            -Assim como no evento passado, funciona por conta, então pegue com o seu char principal<br>
+            - AS TROCAS NA LOJINHA DO EVENTO SÓ FUNCIONARÃO ATÉ DIA 15/04 </p>              
+        </div>
+      </div>
+    </div>
+  </div>
+
   <script type="text/javascript">
    $( document ).ready(function() {
 
@@ -288,6 +322,10 @@
             var groupLeader = $("#groupLeader").val("");
             var playerClass = $("#playerClass").val("");
         }); 
+
+       $( "#btnOpenInfo" ).click(function(){
+            $("#infoModal").modal("show");
+       });
 
         $('body').on('click', '.btnOpenJoin', function(e) {
             var playerName = $("#playerName").val("");
