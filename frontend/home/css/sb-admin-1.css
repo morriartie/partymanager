@@ -12074,7 +12074,7 @@ table.tile_info td p {
 
 @media (max-width:1200px) {
     .x_title h2 {
-        width: 95%;
+        width: 95% !important;
         font-size: 17px
     }
     .graph,
