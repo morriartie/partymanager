@@ -8,12 +8,15 @@
   margin-left: 5px;
 }
 #crrDate{
-  font-style: italic;
-  margin-left: 10px;
-  color: red
+  margin-left: 5px;
+  color: red;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.6rem;
 }
 .titlePt{
   margin-left: 5px;
+  font-family: 'Press Start 2P', cursive;
+  font-size: 0.7rem;
 }
 .createArea{
   margin-top: 15px;
@@ -30,6 +33,24 @@
 }
 .btnInfo{
   margin-top: 12px;
+}
+.fa-info-circle{
+  font-size: 1rem;
+}
+.btn-discord{
+  margin-top: 15px;
+  margin-left: 5px;
+}
+.btn{
+    font-family: 'Press Start 2P', cursive;
+    font-size: 0.7rem;
+}
+.discord{
+  font-size: 2.0rem;
+}
+pre {
+  white-space: pre-line;
+  word-break: normal;
 }
 /*    .container-fluid{
   background: url('images/romlogo.png');
