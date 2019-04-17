@@ -63,7 +63,7 @@
 
             <!-- Nav Item - User Information -->
             <li class="btn-discord">
-              <a class="" href="https://discord.gg/ffDY8ts"><i class="fab fa-discord discord"></i></a>
+              <a class="" href="https://discord.gg/baBPASJ"><i class="fab fa-discord discord"></i></a>
             </li>
 
             <li class="nav-item dropdown no-arrow">
@@ -289,11 +289,6 @@
   <script type="text/javascript">
    $( document ).ready(function() {
 
-        var d = new Date();
-        var n = d.getHours();
-
-        console.log(n);
-
         // PartyComponent
         var partyComponentOuter = '<div class="row"><div class="col-md-5 col-sm-5 col-xs-12">';
         var partyComponentBox = '<div class="x_panel"><div class="x_title">';
@@ -324,6 +319,8 @@
         var pidLeave;
         var playerToRemove;
         var apiPath = 'http://3.95.232.56';
+
+        reset_parties_auto();
 
        // Model Triggers
 
@@ -488,6 +485,15 @@
           m = ('0' + m).slice(-2);
           var y = new Date().getFullYear();
           return " "+d+"/"+m+"/"+y;
+        }
+
+        function reset_parties_auto(){
+          var d = new Date();
+          var currentHour = d.getHours();
+
+          if(currentHour == 3){
+            $.get( apiPath+'/reset_parties' );
+          }         
         }
 
     });   
