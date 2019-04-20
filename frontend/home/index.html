@@ -320,8 +320,6 @@
         var playerToRemove;
         var apiPath = 'http://3.95.232.56';
 
-        reset_parties_auto();
-
        // Model Triggers
 
        $( "#createParty" ).click(function() {
@@ -485,15 +483,6 @@
           m = ('0' + m).slice(-2);
           var y = new Date().getFullYear();
           return " "+d+"/"+m+"/"+y;
-        }
-
-        function reset_parties_auto(){
-          var d = new Date();
-          var currentHour = d.getHours();
-
-          if(currentHour == 3){
-            $.get( apiPath+'/reset_parties' );
-          }         
         }
 
     });   
